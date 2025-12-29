@@ -23,7 +23,7 @@ export function Material() {
           </h2>
 
           <p className="font-sans text-base md:text-lg font-light text-[var(--text-secondary)] leading-relaxed">
-            Monolithic FDM construction using premium matte PLA composite. 
+            Monolithic FDM construction using premium matte PLA. 
             A unified, light-absorbing form designed to let the time speak.
           </p>
 
@@ -34,7 +34,7 @@ export function Material() {
                 PROCESS
               </span>
               <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">
-                FDM ADDITIVE MFG
+                FDM ADDITIVE MANUFACTURING
               </span>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center py-3 md:py-4 border-b border-[var(--border-subtle)] gap-1 sm:gap-0">
@@ -42,7 +42,7 @@ export function Material() {
                 MATERIAL
               </span>
               <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">
-                MATTE PLA COMPOSITE
+                BIODEGRADABLE PLA
               </span>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center py-3 md:py-4 gap-1 sm:gap-0">
@@ -50,7 +50,7 @@ export function Material() {
                 FINISH
               </span>
               <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">
-                LIGHT-ABSORBING BLACK
+                MATTE BLACK
               </span>
             </div>
           </div>
