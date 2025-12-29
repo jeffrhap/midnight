@@ -23,9 +23,6 @@ export function Header() {
           <a href="#about" className="font-mono text-sm lg:text-base text-[var(--text-muted)] tracking-[2px] hover:text-[var(--text-primary)] transition-colors">
             ABOUT
           </a>
-          <a href="#specs" className="font-mono text-sm lg:text-base text-[var(--text-muted)] tracking-[2px] hover:text-[var(--text-primary)] transition-colors">
-            SPECS
-          </a>
         </nav>
 
         {/* Language dropdown */}
@@ -91,13 +88,6 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
             >
               ABOUT
-            </a>
-            <a 
-              href="#specs" 
-              className="font-mono text-base text-[var(--text-muted)] tracking-[2px] py-2"
-              onClick={() => setMenuOpen(false)}
-            >
-              SPECS
             </a>
             
             {/* Mobile language selector */}
