@@ -4,28 +4,36 @@ import type { NextRequest } from "next/server";
 export function proxy(request: NextRequest) {
   const response = NextResponse.next();
 
-  // Content Security Policy
-  // Adjust these directives based on your needs
+  // Content Security Policy - Strict security configuration
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  // Build CSP header based on environment
   const cspHeader = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // 'unsafe-eval' needed for Next.js in dev, remove in production if possible
-    "style-src 'self' 'unsafe-inline'", // 'unsafe-inline' needed for Tailwind CSS
-    "img-src 'self' data: https:", // Allow images from self, data URIs, and HTTPS
+    isProduction 
+      ? "script-src 'self'" // Production: No unsafe-eval, no unsafe-inline
+      : "script-src 'self' 'unsafe-eval'", // Development: Allow unsafe-eval for Next.js hot reload
+    "style-src 'self' 'unsafe-inline'", // Tailwind CSS requires unsafe-inline
+    "img-src 'self' data: blob:", // Only self, data URIs, and blob URLs
     "font-src 'self' data:",
-    "object-src 'none'",
+    "connect-src 'self'", // API calls only to same origin
+    "media-src 'self'",
+    "worker-src 'self' blob:",
+    "manifest-src 'self'",
+    "object-src 'none'", // Block plugins
     "base-uri 'self'",
     "form-action 'self'",
-    "frame-ancestors 'self'",
-    "upgrade-insecure-requests", // Upgrade HTTP to HTTPS
+    "frame-ancestors 'none'", // Prevent clickjacking - no embedding allowed
+    "upgrade-insecure-requests", // Force HTTPS
   ].join("; ");
 
   // Security headers
   response.headers.set("Content-Security-Policy", cspHeader);
-  response.headers.set("X-Frame-Options", "SAMEORIGIN");
+  response.headers.set("X-Frame-Options", "DENY"); // Prevent clickjacking
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-XSS-Protection", "1; mode=block");
-  response.headers.set("Referrer-Policy", "origin-when-cross-origin");
-  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=()");
   
   // Additional security headers (consolidated from next.config.ts)
   response.headers.set("X-DNS-Prefetch-Control", "on");
