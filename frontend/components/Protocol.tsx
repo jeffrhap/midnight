@@ -1,18 +1,23 @@
+"use client";
+
 import { WordClock } from "./WordClock";
+import { useLocalization } from "@/contexts/LocalizationContext";
 
 export function Protocol() {
+  const { t } = useLocalization();
+  
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 lg:px-16 py-16 md:py-24 bg-[var(--bg-deep)]">
       {/* Header */}
       <div className="flex flex-col items-center gap-3 md:gap-5 mb-8 md:mb-16 text-center">
         <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[3px] md:tracking-[4px]">
-          THE.MIDNIGHT.PROTOCOL
+          {t("protocol.section")}
         </span>
         <h2 className="font-sans text-[24px] sm:text-[28px] md:text-[36px] font-light text-[var(--text-primary)] tracking-wide">
-          At 00:00, the noise fades.
+          {t("protocol.title")}
         </h2>
         <p className="font-sans text-base md:text-lg lg:text-xl font-light text-[var(--text-muted)]">
-          A moment of silence before the reset.
+          {t("protocol.subtitle")}
         </p>
       </div>
 

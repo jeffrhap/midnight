@@ -1,4 +1,10 @@
+"use client";
+
+import { useLocalization } from "@/contexts/LocalizationContext";
+
 export function Material() {
+  const { t } = useLocalization();
+  
   return (
     <section id="about" className="min-h-screen flex items-center px-4 md:px-8 lg:px-16 py-16 md:py-24 bg-[var(--bg-secondary)]">
       <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-20 w-full max-w-[1440px] mx-auto">
@@ -12,33 +18,33 @@ export function Material() {
 
         {/* Right: Content */}
         <div className="w-full lg:flex-1 flex flex-col gap-4 md:gap-6 lg:gap-8 max-w-[520px] text-center lg:text-left">
-          <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[3px] md:tracking-[4px]">MATERIAL.HONESTY</span>
+          <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[3px] md:tracking-[4px]">{t("material.section")}</span>
 
           <h2 className="font-mono text-[28px] sm:text-[36px] md:text-[40px] lg:text-[44px] font-bold text-[var(--text-primary)] tracking-[1px] md:tracking-[2px] leading-[1.2] whitespace-pre-line">
-            {"ENGINEERED\nMATTE HOUSING."}
+            {t("material.title")}
           </h2>
 
           <p className="font-sans text-base md:text-lg font-light text-[var(--text-secondary)] leading-relaxed">
-            Monolithic FDM construction using premium matte PLA. A unified, light-absorbing form designed to let the time speak.
+            {t("material.description")}
           </p>
 
           {/* Specs */}
           <div className="flex flex-col gap-2 md:gap-4 mt-2 md:mt-4">
             <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center py-3 md:py-4 border-b border-[var(--border-subtle)] gap-1 sm:gap-0">
-              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">PROCESS</span>
+              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">{t("material.process")}</span>
               <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">
-                FDM ADDITIVE MANUFACTURING
+                {t("material.processValue")}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center py-3 md:py-4 border-b border-[var(--border-subtle)] gap-1 sm:gap-0">
-              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">MATERIAL</span>
+              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">{t("material.material")}</span>
               <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">
-                BIODEGRADABLE PLA
+                {t("material.materialValue")}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center py-3 md:py-4 gap-1 sm:gap-0">
-              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">FINISH</span>
-              <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">MATTE BLACK</span>
+              <span className="font-mono text-xs md:text-sm text-[var(--text-muted)] tracking-[2px]">{t("material.finish")}</span>
+              <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] tracking-[1px]">{t("material.finishValue")}</span>
             </div>
           </div>
         </div>

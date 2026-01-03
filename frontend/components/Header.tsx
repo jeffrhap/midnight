@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useLocalization } from "@/contexts/LocalizationContext";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [language, setLanguage] = useState("EN");
+  const { language, setLanguage, t } = useLocalization();
 
   const languages = [
-    { code: "EN", label: "English" },
-    { code: "NL", label: "Nederlands" },
+    { code: "EN" as const, label: "English" },
+    { code: "NL" as const, label: "Nederlands" },
   ];
 
   return (
@@ -26,7 +27,7 @@ export function Header() {
             href="#about"
             className="font-mono text-sm lg:text-base text-[var(--text-muted)] tracking-[2px] hover:text-[var(--text-primary)] transition-colors"
           >
-            ABOUT
+            {t("nav.about")}
           </a>
         </nav>
 
@@ -99,12 +100,12 @@ export function Header() {
               className="font-mono text-base text-[var(--text-muted)] tracking-[2px] py-2"
               onClick={() => setMenuOpen(false)}
             >
-              ABOUT
+              {t("nav.about")}
             </a>
 
             {/* Mobile language selector */}
             <div className="pt-2 border-t border-[var(--border-subtle)]">
-              <span className="font-mono text-xs text-[var(--text-subtle)] tracking-[2px] mb-2 block">LANGUAGE</span>
+              <span className="font-mono text-xs text-[var(--text-subtle)] tracking-[2px] mb-2 block">{t("nav.language")}</span>
               <div className="flex flex-wrap gap-2">
                 {languages.map((lang) => (
                   <button

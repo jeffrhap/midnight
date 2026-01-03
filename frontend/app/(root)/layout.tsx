@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import { LocalizationProvider } from "@/contexts/LocalizationContext";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -61,9 +62,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceMono.variable} antialiased`}
       >
-        <SubscriptionProvider>
-          {children}
-        </SubscriptionProvider>
+        <LocalizationProvider>
+          <SubscriptionProvider>
+            {children}
+          </SubscriptionProvider>
+        </LocalizationProvider>
       </body>
     </html>
   );

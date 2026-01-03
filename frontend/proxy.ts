@@ -1,19 +1,31 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { randomBytes } from "crypto";
 
 export function proxy(request: NextRequest) {
-  const response = NextResponse.next();
+  // Generate a nonce for this request
+  const nonce = randomBytes(16).toString("base64");
+  
+  // Clone the request headers and add the nonce
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
 
-  // Content Security Policy - Strict security configuration
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
+  // Content Security Policy - Strict security configuration with nonce
   const isProduction = process.env.NODE_ENV === 'production';
   
-  // Build CSP header based on environment
+  // Build CSP header based on environment with nonce support
   const cspHeader = [
     "default-src 'self'",
     isProduction 
-      ? "script-src 'self'" // Production: No unsafe-eval, no unsafe-inline
-      : "script-src 'self' 'unsafe-eval'", // Development: Allow unsafe-eval for Next.js hot reload
-    "style-src 'self' 'unsafe-inline'", // Tailwind CSS requires unsafe-inline
+      ? `script-src 'self' 'nonce-${nonce}'` // Production: Use nonce for inline scripts
+      : `script-src 'self' 'unsafe-eval' 'nonce-${nonce}'`, // Development: Allow unsafe-eval for Next.js hot reload + nonce
+    `style-src 'self' 'unsafe-inline'`, // Use nonce instead of unsafe-inline for styles
     "img-src 'self' data: blob:", // Only self, data URIs, and blob URLs
     "font-src 'self' data:",
     "connect-src 'self'", // API calls only to same origin

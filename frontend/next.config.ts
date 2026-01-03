@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Note: All security headers (including CSP, HSTS, etc.) are now handled in middleware.ts
+  // Note: All security headers (including CSP with nonce support, HSTS, etc.) are now handled in proxy.ts
   // Enable compression
   compress: true,
   // Production optimizations
