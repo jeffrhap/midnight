@@ -1,13 +1,15 @@
-import { useState } from 'react';
+"use client";
+
+import { useState } from "react";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [language, setLanguage] = useState('EN');
+  const [language, setLanguage] = useState("EN");
 
   const languages = [
-    { code: 'EN', label: 'English' },
-    { code: 'NL', label: 'Nederlands' },
+    { code: "EN", label: "English" },
+    { code: "NL", label: "Nederlands" },
   ];
 
   return (
@@ -20,22 +22,35 @@ export function Header() {
       {/* Desktop nav */}
       <div className="hidden md:flex items-center gap-6 lg:gap-10">
         <nav className="flex items-center gap-6 lg:gap-10">
-          <a href="#about" className="font-mono text-sm lg:text-base text-[var(--text-muted)] tracking-[2px] hover:text-[var(--text-primary)] transition-colors">
+          <a
+            href="#about"
+            className="font-mono text-sm lg:text-base text-[var(--text-muted)] tracking-[2px] hover:text-[var(--text-primary)] transition-colors"
+          >
             ABOUT
           </a>
         </nav>
 
         {/* Language dropdown */}
         <div className="relative">
-          <button 
+          <button
             className="flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-2 lg:py-2.5 rounded border border-[var(--border-subtle)] hover:border-[var(--border-glow)] transition-colors"
             onClick={() => setLangOpen(!langOpen)}
           >
             <svg className="w-4 h-4 lg:w-5 lg:h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+              />
             </svg>
             <span className="font-mono text-sm lg:text-base text-[var(--text-muted)]">{language}</span>
-            <svg className={`w-3 h-3 text-[var(--text-muted)] transition-transform ${langOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className={`w-3 h-3 text-[var(--text-muted)] transition-transform ${langOpen ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -47,9 +62,9 @@ export function Header() {
                 <button
                   key={lang.code}
                   className={`w-full px-4 py-2 text-left font-mono text-sm tracking-[1px] transition-colors ${
-                    language === lang.code 
-                      ? 'text-[var(--text-primary)] bg-[var(--bg-elevated)]' 
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                    language === lang.code
+                      ? "text-[var(--text-primary)] bg-[var(--bg-elevated)]"
+                      : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
                   }`}
                   onClick={() => {
                     setLanguage(lang.code);
@@ -65,10 +80,7 @@ export function Header() {
       </div>
 
       {/* Mobile menu button */}
-      <button 
-        className="md:hidden p-2"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
+      <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
         <svg className="w-6 h-6 text-[var(--text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           {menuOpen ? (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -82,27 +94,25 @@ export function Header() {
       {menuOpen && (
         <div className="absolute top-[64px] left-0 right-0 bg-[var(--bg-deep)]/95 backdrop-blur-sm border-b border-[var(--border-subtle)] md:hidden">
           <nav className="flex flex-col p-4 gap-4">
-            <a 
-              href="#about" 
+            <a
+              href="#about"
               className="font-mono text-base text-[var(--text-muted)] tracking-[2px] py-2"
               onClick={() => setMenuOpen(false)}
             >
               ABOUT
             </a>
-            
+
             {/* Mobile language selector */}
             <div className="pt-2 border-t border-[var(--border-subtle)]">
-              <span className="font-mono text-xs text-[var(--text-subtle)] tracking-[2px] mb-2 block">
-                LANGUAGE
-              </span>
+              <span className="font-mono text-xs text-[var(--text-subtle)] tracking-[2px] mb-2 block">LANGUAGE</span>
               <div className="flex flex-wrap gap-2">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     className={`px-3 py-2 rounded border font-mono text-sm tracking-[1px] transition-colors ${
-                      language === lang.code 
-                        ? 'border-[var(--border-glow)] text-[var(--text-primary)]' 
-                        : 'border-[var(--border-subtle)] text-[var(--text-muted)]'
+                      language === lang.code
+                        ? "border-[var(--border-glow)] text-[var(--text-primary)]"
+                        : "border-[var(--border-subtle)] text-[var(--text-muted)]"
                     }`}
                     onClick={() => {
                       setLanguage(lang.code);

@@ -1,4 +1,4 @@
-import { WordClock } from './WordClock';
+import { WordClock } from "./WordClock";
 
 export function Protocol() {
   return (
@@ -21,38 +21,31 @@ export function Protocol() {
         {/* 23:59 Clock - IT IS ELEVEN */}
         <div className="flex flex-col gap-3 md:gap-4">
           <div className="hidden md:block">
-            <WordClock 
-              highlightedWords={['IT', 'IS', 'ELEVEN']} 
-              size="medium" 
-            />
+            <WordClock highlightedWords={["IT", "IS", "ELEVEN"]} size="medium" />
           </div>
           <div className="block md:hidden">
-            <WordClock 
-              highlightedWords={['IT', 'IS', 'ELEVEN']} 
-              size="small" 
-            />
+            <WordClock highlightedWords={["IT", "IS", "ELEVEN"]} size="small" />
           </div>
           <span className="font-mono text-sm md:text-base font-medium text-[var(--text-muted)] text-center">23:59</span>
         </div>
 
         {/* Arrow */}
-        <svg className="w-8 h-8 md:w-10 md:h-10 text-[var(--text-subtle)] rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-8 h-8 md:w-10 md:h-10 text-[var(--text-subtle)] rotate-90 md:rotate-0"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>
 
         {/* 00:00 Clock - Visual 00:00 pattern */}
         <div className="flex flex-col gap-3 md:gap-4">
           <div className="hidden md:block">
-            <WordClock 
-              pattern="0000"
-              size="medium" 
-            />
+            <WordClock pattern="0000" size="medium" />
           </div>
           <div className="block md:hidden">
-            <WordClock 
-              pattern="0000"
-              size="small" 
-            />
+            <WordClock pattern="0000" size="small" />
           </div>
           <span className="font-mono text-sm md:text-base font-medium text-[var(--text-primary)] text-center">00:00</span>
         </div>
