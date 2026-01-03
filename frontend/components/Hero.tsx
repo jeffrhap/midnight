@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { WordClock } from "./WordClock";
 import { NotifyModal } from "./NotifyModal";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 export function Hero() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isSubscribed } = useSubscription();
 
   return (
     <section className="relative min-h-screen flex items-center px-4 md:px-8 lg:px-16 pt-[64px] md:pt-[80px] py-12 md:py-0 bg-[var(--bg-deep)]">
@@ -28,14 +30,26 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 md:gap-6 mt-2 md:mt-4">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto px-8 md:px-10 lg:px-12 py-4 md:py-5 bg-[var(--accent-warm)] rounded-sm hover:bg-[var(--accent-warm-hover)] transition-colors shadow-[0_0_30px_rgba(45,71,57,0.4)] cursor-pointer"
-            >
-              <span className="font-mono text-sm md:text-base font-medium text-white tracking-[2px]">GET NOTIFIED</span>
-            </button>
+            {isSubscribed ? (
+              <button
+                disabled
+                className="w-full sm:w-auto px-8 md:px-10 lg:px-12 py-4 md:py-5 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-sm cursor-not-allowed opacity-60"
+              >
+                <span className="font-mono text-sm md:text-base font-medium text-[var(--text-muted)] tracking-[2px]">YOU'RE ON THE LIST</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="w-full sm:w-auto px-8 md:px-10 lg:px-12 py-4 md:py-5 bg-[var(--accent-warm)] rounded-sm hover:bg-[var(--accent-warm-hover)] transition-colors shadow-[0_0_30px_rgba(45,71,57,0.4)] cursor-pointer"
+              >
+                <span className="font-mono text-sm md:text-base font-medium text-white tracking-[2px]">GET NOTIFIED</span>
+              </button>
+            )}
 
-            <NotifyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <NotifyModal 
+              isOpen={isModalOpen} 
+              onClose={() => setIsModalOpen(false)} 
+            />
 
             {/* <button className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 md:px-10 lg:px-12 py-4 md:py-5 rounded-sm border border-[var(--border-glow)] hover:border-[var(--accent-warm)] transition-colors cursor-pointer">
               <svg className="w-4 h-4 md:w-5 md:h-5 text-[var(--text-secondary)]" fill="currentColor" viewBox="0 0 24 24">

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { subscribeSchema } from "@/lib/validations";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 interface NotifyModalProps {
   isOpen: boolean;
@@ -10,35 +12,52 @@ interface NotifyModalProps {
 export function NotifyModal({ isOpen, onClose }: NotifyModalProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { setSubscribed } = useSubscription();
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Improved email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email.trim())) {
+    // Validate with Zod
+    const validationResult = subscribeSchema.safeParse({ email });
+
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
+      setErrorMessage(firstError.message);
       setStatus("error");
       return;
     }
 
     setStatus("loading");
+    setErrorMessage("");
 
-    // Simulate API call - replace with actual service integration
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: validationResult.data.email }),
+      });
 
-    // Store in localStorage for now (replace with actual API)
-    // TODO: Replace with API route for production
-    const emails = JSON.parse(localStorage.getItem("midnight_waitlist") || "[]");
-    emails.push({ email: email.trim(), timestamp: new Date().toISOString() });
-    localStorage.setItem("midnight_waitlist", JSON.stringify(emails));
+      const data = await response.json();
 
-    // Remove console.log in production (use environment-based logging)
-    if (process.env.NODE_ENV === "development") {
-      console.log("Email submitted:", email);
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to subscribe");
+      }
+
+      // Store subscription status in localStorage
+      setSubscribed();
+      
+      setStatus("success");
+      setEmail(""); // Clear email on success
+    } catch (error) {
+      console.error("Subscription error:", error);
+      setErrorMessage(error instanceof Error ? error.message : "Failed to subscribe");
+      setStatus("error");
     }
-    setStatus("success");
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -91,7 +110,10 @@ export function NotifyModal({ isOpen, onClose }: NotifyModalProps) {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (status === "error") setStatus("idle");
+                    if (status === "error") {
+                      setStatus("idle");
+                      setErrorMessage("");
+                    }
                   }}
                   placeholder="your@email.com"
                   className={`w-full px-4 py-4 bg-[var(--bg-deep)] border rounded-sm font-mono text-base text-[var(--text-primary)] placeholder:text-[var(--text-subtle)] focus:outline-none focus:border-[var(--accent-warm)] transition-colors ${
@@ -99,7 +121,9 @@ export function NotifyModal({ isOpen, onClose }: NotifyModalProps) {
                   }`}
                   disabled={status === "loading"}
                 />
-                {status === "error" && <p className="mt-2 font-mono text-xs text-red-500">Please enter a valid email address</p>}
+                {status === "error" && errorMessage && (
+                  <p className="mt-2 font-mono text-xs text-red-500">{errorMessage}</p>
+                )}
               </div>
 
               <button
