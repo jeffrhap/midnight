@@ -20,11 +20,20 @@ export function proxy(request: NextRequest) {
   const isProduction = process.env.NODE_ENV === 'production';
   
   // Build CSP header based on environment with nonce support
+  // Note: 'strict-dynamic' allows scripts loaded by nonce-verified scripts to execute
+  // This is necessary for Next.js's chunk loading and dynamic imports
+  // 
+  // IMPORTANT: Pages must use 'force-dynamic' in layout.tsx for nonces to work properly.
+  // Static pages generated at build time cannot access request-time nonces.
+  // 
+  // NOTE: Next.js 16 App Router injects inline scripts (like __NEXT_DATA__) that may not
+  // automatically get nonces. We include 'unsafe-inline' as a fallback until Next.js
+  // fully supports automatic nonce application. Consider removing it if issues are resolved.
   const cspHeader = [
     "default-src 'self'",
     isProduction 
-      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'` // Production: Use nonce for inline scripts
-      : `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' 'strict-dynamic'`, // Development: Allow unsafe-eval for Next.js hot reload + nonce
+      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline'` // Production: Nonce + fallback for Next.js inline scripts
+      : `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline'`, // Development: Allow unsafe-eval + unsafe-inline
     `style-src 'self' 'unsafe-inline'`, // Use nonce instead of unsafe-inline for styles
     "img-src 'self' data: blob:", // Only self, data URIs, and blob URLs
     "font-src 'self' data:",
@@ -41,6 +50,8 @@ export function proxy(request: NextRequest) {
 
   // Security headers
   response.headers.set("Content-Security-Policy", cspHeader);
+  // Set nonce in response header so Next.js can access it for inline scripts
+  response.headers.set("x-nonce", nonce);
   response.headers.set("X-Frame-Options", "DENY"); // Prevent clickjacking
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-XSS-Protection", "1; mode=block");
