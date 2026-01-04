@@ -1419,12 +1419,6 @@
           "id": "t5j21",
           "name": "mark",
           "fill": "#FFFFFF",
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "#FFFFFF40",
-            "blur": 20
-          },
           "content": "M",
           "lineHeight": 0.8,
           "fontFamily": "Space Mono",
@@ -1439,7 +1433,8 @@
           "content": "00:00",
           "lineHeight": 0.8,
           "fontFamily": "Space Mono",
-          "fontSize": 36
+          "fontSize": 36,
+          "fontWeight": "normal"
         }
       ]
     }
