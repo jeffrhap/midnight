@@ -137,14 +137,8 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
       if (savedLanguage && (savedLanguage === "EN" || savedLanguage === "NL")) {
         setLanguageState(savedLanguage);
       } else {
-        // Default to Dutch, but try to detect browser language as fallback
-        const browserLang = navigator.language.split("-")[0].toUpperCase();
-        if (browserLang === "EN") {
-          setLanguageState("EN");
-        } else {
-          // Default to Dutch
-          setLanguageState("NL");
-        }
+        // Default to Dutch
+        setLanguageState("NL");
       }
     }
   }, []);
