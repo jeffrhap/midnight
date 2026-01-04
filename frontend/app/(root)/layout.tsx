@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { LocalizationProvider } from "@/contexts/LocalizationContext";
@@ -52,15 +53,24 @@ export const viewport: Viewport = {
   themeColor: "#0A0A0A",
 };
 
-export default function RootLayout({
+// Force dynamic rendering to ensure nonces work properly with CSP
+// Static pages cannot access request-time nonces
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Get nonce from headers for inline scripts
+  const headersList = await headers();
+  const nonce = headersList.get("x-nonce");
+
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${spaceMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <LocalizationProvider>
           <SubscriptionProvider>

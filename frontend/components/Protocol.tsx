@@ -23,13 +23,13 @@ export function Protocol() {
 
       {/* Split clocks */}
       <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 lg:gap-12">
-        {/* 23:59 Clock - IT IS ELEVEN */}
+        {/* 23:59 Clock - HET IS VIJF VOOR TWAALF */}
         <div className="flex flex-col gap-3 md:gap-4">
           <div className="hidden md:block">
-            <WordClock highlightedWords={["IT", "IS", "ELEVEN"]} size="medium" />
+            <WordClock highlightedWords={["HET", "IS", "VIJF", "VOOR", "TWAALF"]} size="medium" language="NL" />
           </div>
           <div className="block md:hidden">
-            <WordClock highlightedWords={["IT", "IS", "ELEVEN"]} size="small" />
+            <WordClock highlightedWords={["HET", "IS", "VIJF", "VOOR", "TWAALF"]} size="small" language="NL" />
           </div>
           <span className="font-mono text-sm md:text-base font-medium text-[var(--text-muted)] text-center">23:59</span>
         </div>

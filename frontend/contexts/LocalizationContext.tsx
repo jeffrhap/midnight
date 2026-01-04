@@ -26,6 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.tagline": "Time, Written in Light.",
     "hero.button.notified": "GET NOTIFIED",
     "hero.button.onList": "YOU'RE ON THE LIST",
+    "hero.clockNotice": "Will only be available in dutch...for now.",
 
     // CTA
     "cta.coming": "COMING.2026",
@@ -80,6 +81,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.tagline": "Tijd, geschreven in licht.",
     "hero.button.notified": "BLIJF OP DE HOOGTE",
     "hero.button.onList": "JE STAAT OP DE LIJST",
+    "hero.clockNotice": "Engelse klok binnenkort beschikbaar",
 
     // CTA
     "cta.coming": "VERWACHT.2026",
@@ -126,7 +128,7 @@ const translations: Record<Language, Record<string, string>> = {
 };
 
 export function LocalizationProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("EN");
+  const [language, setLanguageState] = useState<Language>("NL");
 
   // Initialize from localStorage on mount
   useEffect(() => {
@@ -135,11 +137,8 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
       if (savedLanguage && (savedLanguage === "EN" || savedLanguage === "NL")) {
         setLanguageState(savedLanguage);
       } else {
-        // Try to detect browser language
-        const browserLang = navigator.language.split("-")[0].toUpperCase();
-        if (browserLang === "NL") {
-          setLanguageState("NL");
-        }
+        // Default to Dutch
+        setLanguageState("NL");
       }
     }
   }, []);
@@ -161,7 +160,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   }, [language]);
 
   const t = (key: string): string => {
-    return translations[language]?.[key] || translations["EN"][key] || key;
+    return translations[language]?.[key] || translations["NL"][key] || key;
   };
 
   return <LocalizationContext.Provider value={{ language, setLanguage, t }}>{children}</LocalizationContext.Provider>;
