@@ -23,8 +23,8 @@ export function proxy(request: NextRequest) {
   const cspHeader = [
     "default-src 'self'",
     isProduction 
-      ? `script-src 'self' 'nonce-${nonce}'` // Production: Use nonce for inline scripts
-      : `script-src 'self' 'unsafe-eval' 'nonce-${nonce}'`, // Development: Allow unsafe-eval for Next.js hot reload + nonce
+      ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'` // Production: Use nonce for inline scripts
+      : `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' 'strict-dynamic'`, // Development: Allow unsafe-eval for Next.js hot reload + nonce
     `style-src 'self' 'unsafe-inline'`, // Use nonce instead of unsafe-inline for styles
     "img-src 'self' data: blob:", // Only self, data URIs, and blob URLs
     "font-src 'self' data:",
